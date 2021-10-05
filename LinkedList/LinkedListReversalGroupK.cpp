@@ -64,6 +64,55 @@ public:
 
         return prev;
     }
+
+    listNode* reverseStartEnd(listNode* start, listNode* end)
+    {
+        listNode* cur{}, * prev{}, * nt{};
+        cur = start;
+
+        while (end != nullptr && cur->next != end->next)
+        {
+            nt = cur->next;
+            cur->next = prev;
+
+            prev = cur;
+            cur = nt;
+        }
+
+        return prev;
+    }
+
+    listNode* reverseKGroupIterative(listNode* head, int k)
+    {
+        if (head == nullptr)
+            return head;
+
+       
+        listNode* crawl = head;
+        int count = 1;
+
+        listNode* prev{};
+        while (crawl != nullptr)
+        {
+            if (count % k == 0)//extract list of size k
+            {
+                listNode* next_ofrHead = crawl->next;
+                listNode *rHead = reverseStartEnd(head, crawl); //[1,2,3,4, .. ] => [3,2,1,4,..] rHead = 1
+               
+                prev->next = crawl;
+                head->next = crawl->next;
+
+                crawl = next_ofrHead;
+            }
+            else
+            {
+                crawl = crawl->next;
+                count++;
+            }
+        }
+
+        return crawl;
+    }
 };
 
 
@@ -74,20 +123,23 @@ int main(void)
 {
    // freopen("sample_input.txt", "r+", stdin);
 
-    int t;
-    cin >> t;
+    int t = 1;
+  //  cin >> t;
 
     while (t--)
     {
         struct node* head = NULL;
         struct node* temp = NULL;
         int n;
-        cin >> n;
+    //    cin >> n;
+        int arr[] = { 1,2,3,4,5,6,7,8 };
+        n = sizeof(arr) / sizeof(arr[0]);
+        int k = 3;
 
         for (int i = 0; i < n; i++)
         {
-            int value;
-            cin >> value;
+            int value = arr[i];
+            //cin >> value;
             if (i == 0)
             {
                 head = new node(value);
@@ -100,12 +152,13 @@ int main(void)
             }
         }
 
-        int k;
-        cin >> k;
+      //  int k;
+     //   cin >> k;
 
 
         Solution ob;
-        head = ob.reverseKGroupLogicMojo(head, k);
+       // head = ob.reverseKGroupLogicMojo(head, k);
+        head = ob.reverseKGroupIterative(head, k);
         printList(head);
     }
 
