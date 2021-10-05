@@ -2,24 +2,37 @@
 #include<vector>
 using namespace std;
 void printMatrix(vector<vector<int> >& vec1);
-
-int findEditDistanceCostRecursiveTopDown(int m, int n, string s1, string s2)
-{
-	if (s1.length() == s1.length() || s2.length() == n)
-		return 0;
-
-	if (s1[m] == s2[n])
-	{
-		return findEditDistanceCostRecursiveTopDown(m + 1, n + 1, s1, s2); //if char matches then {delete,replace or Insert non happen}
-	}
-	
-
-
-}
-
 const int INSERTION_COST = 1;
 const int DEL_COST = 1;
 const int REPLACE_COST = 1;
+
+//s1->s2
+int findEditDistanceCostRecursiveTopDown(int m, int n, string s1, string s2)
+{
+	if (m == 0 || n == 0)
+	{
+		printf("\n");
+		return  (max(m, n)) * INSERTION_COST;
+	}
+
+	int val = 0;
+	if (s1[m-1] == s2[n-1])
+	{
+		val =  findEditDistanceCostRecursiveTopDown(m - 1, n - 1, s1, s2); //if char matches then {delete,replace or Insert non happen}
+	}
+	else
+	{
+		int iCost = INSERTION_COST + findEditDistanceCostRecursiveTopDown(m - 1, n, s1, s2);
+		int dCost = DEL_COST + findEditDistanceCostRecursiveTopDown(m, n - 1, s1, s2);
+
+		int rCost = REPLACE_COST + findEditDistanceCostRecursiveTopDown(m - 1, n - 1, s1, s2);
+		val =  (min(iCost, min(dCost, rCost)));
+	}
+	printf("(%d,%d) = %d ", m, n, val);
+	return val;
+}
+
+
 int findEditDistanceDP(string s1, string s2)
 {
 	if (s1.length() == 0 || s2.length() == 0)
@@ -72,6 +85,44 @@ int findEditDistanceDP(string s1, string s2)
 	return dp[NRow - 1][NCol - 1];
 }
 
+{
+
+	vector<int> vec;
+
+	int mFreq = vec[0].freq;
+	for (auto k : vec)
+	{
+		int aID = k.aID;
+		if (areaDB[aID].size() > 0)
+		{
+			mFreq = k.second;
+			break;
+		}
+	}
+	int ansPID = 10^6 + 1; //this greator 
+	pDB[ansPID].price = INT_MAX;
+	
+
+	for (auto it1 = vec.begin(); it1 != vec.end(); it1++)
+	{
+		int aID = *it->aID; //aread ID
+		if (areadDB[aID].set.size() == 0)
+			continue;
+		if (mFreq == *it->freq)
+		{
+			if (pDB[ansPID].price > areaDB[aID].top()) //add check for case when areadDB[aID] size is zero
+			{
+				ansPID = areaDB[aID].top();
+			}
+		}
+		else
+		{
+			break;
+		}
+
+	}
+
+}
 int main()
 {
 	string s1 = "horse"; // "sunday";
@@ -83,6 +134,7 @@ int main()
 	int ans = findEditDistanceDP(s1, s2);
 	printf("EditDP = %d\n", ans);
 
+	printf("\nEditDistanceBottomUP = %d\n", findEditDistanceCostRecursiveTopDown(s1.length(),s2.length(), s1, s2));
 	return 0;
 }
 
