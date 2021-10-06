@@ -85,44 +85,6 @@ int findEditDistanceDP(string s1, string s2)
 	return dp[NRow - 1][NCol - 1];
 }
 
-{
-
-	vector<int> vec;
-
-	int mFreq = vec[0].freq;
-	for (auto k : vec)
-	{
-		int aID = k.aID;
-		if (areaDB[aID].size() > 0)
-		{
-			mFreq = k.second;
-			break;
-		}
-	}
-	int ansPID = 10^6 + 1; //this greator 
-	pDB[ansPID].price = INT_MAX;
-	
-
-	for (auto it1 = vec.begin(); it1 != vec.end(); it1++)
-	{
-		int aID = *it->aID; //aread ID
-		if (areadDB[aID].set.size() == 0)
-			continue;
-		if (mFreq == *it->freq)
-		{
-			if (pDB[ansPID].price > areaDB[aID].top()) //add check for case when areadDB[aID] size is zero
-			{
-				ansPID = areaDB[aID].top();
-			}
-		}
-		else
-		{
-			break;
-		}
-
-	}
-
-}
 int main()
 {
 	string s1 = "horse"; // "sunday";
