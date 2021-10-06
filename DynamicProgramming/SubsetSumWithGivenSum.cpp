@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<vector>
 #include<string>
@@ -5,6 +6,7 @@ using namespace std;
 void printMatrix(vector<vector<int> >& vec1);
 
 class Solution {
+public:
     bool subsetSumRecursive(int x, int sum, const vector<int>& arr)
     {
         if (sum == 0)
@@ -23,7 +25,7 @@ class Solution {
     {
         int NRow = arr.size();
         int NCol = sum;
-
+        NRow++;
         NCol++;
 
         //Row has arr element, Col has Sum
@@ -42,46 +44,51 @@ class Solution {
                 //determine if sum = i can be formed by taking array element from [0..i] or not
 
                 bool notIncluding = dp[i - 1][j];
-                bool including = (j - arr[i] >=0 ) ? dp[i - 1][j-arr[i]]: false;
+                bool including = (j - arr[i - 1] >= 0) ? dp[i - 1][j - arr[i - 1]] : false;
 
                 dp[i][j] = including || notIncluding;
             }
         }
+#if 0
         printf("dp matrix is\n");
         printMatrix(dp);
         printf("\n");
+#endif
 
 
         return dp[NRow - 1][NCol - 1];
 
     }
 public:
-    bool isSubsetSum(int N, int arr[], int sum) 
+    bool isSubsetSum(int N, int arr[], int sum)
     {
         // code here 
 
      //   return subsetSumRecursive(0, sum, vector<int>(arr, arr + N));
         return subsetSumDP(vector<int>(arr, arr + N), sum);
-        
+
     }
 };
 
+#define MAX_SIZE 10000
 int main()
 {
-    int t=1;
- //   cin >> t;
+    freopen("sample_input.txt", "r", stdin);
+
+    int t = 1;
+    cin >> t;
     while (t--)
     {
         int N, sum;
-      //  cin >> N;
+        cin >> N;
 
-      //  int arr[] = { 3,34,4,12,5,2 };
-        int arr[] = { 3,34,4,12,5,2 };
-        N = sizeof(arr) / sizeof(arr[0]);
-       // sum = 9;
-        sum = 30;
+        int arr[MAX_SIZE];
+        for (int i = 0; i < N; i++)
+            cin >> arr[i];
 
+        cin >> sum;
         Solution ob;
+        // cout<<"Recusive = \n"<<ob.subsetSumRecursive(0, sum, vector<int>(arr, arr + N));
         cout << ob.isSubsetSum(N, arr, sum) << endl;
     }
     return 0;
