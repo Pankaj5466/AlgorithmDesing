@@ -1,0 +1,2 @@
+1. When taking 0the row or 0th column as dummy row /column.
+then when traversing the matrix at 'i' and 'j' the corresponding data of string will be at 'i-1' , 'j-1' due to offset of 1.
