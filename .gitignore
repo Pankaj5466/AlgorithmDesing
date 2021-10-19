@@ -1,0 +1,8 @@
+# Ignore all files...
+*.*
+
+# ...except the ones we want
+!*.txt
+!*.cpp
+!*.h
+!.c
