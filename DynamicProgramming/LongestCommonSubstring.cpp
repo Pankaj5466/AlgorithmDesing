@@ -4,6 +4,26 @@
 using namespace std;
 void printMatrix(vector<vector<int> >& vec1);
 
+int findLCSRecursive2(int m, int n, int cLCSLenght, const string &s1, const string& s2)
+{
+	if(m >=s1.length() || n>=s2.length())
+		return 0;
+	
+	if(s1[m] == s2[n])
+	{
+		return 1+ findLCSRecursive2(m+1,n+1,cLCSLenght+1,s1,s2);
+	}
+	else
+	{
+		//OBSERVE: for both case, we need to consider LCS strarting from this positon
+		//Hence, cLCSLength is rest to zero, as if this character do not match , then previous can not contribute to this
+		int val1 = findLCSRecursive2(m+1,n,0,s1,s2);
+		int val2 = findLCSRecursive2(m,n+1,0,s1,s2);
+
+		return max(val1,val2);
+	}
+}
+
 //will be called as m = 0, n =0
 int maxVal = 0;
 int findLCSRecursiveTopDown(int m, int n, const string& s1, const string& s2)
@@ -82,6 +102,7 @@ int main()
 	findLCSRecursiveTopDown(0, 0, s1, s2);
 
 	printf("TopDown Recursive = %d\n", maxVal);
+	printf("findLCSRecu2 Max = %d\n", findLCSRecursive2(0,0,0,s1, s2));
 
 	printf("DPSubstring Max = %d\n", findLCSubstringDP(s1, s2));
 
