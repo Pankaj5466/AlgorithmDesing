@@ -7,7 +7,38 @@ const int INSERTION_COST = 1;
 const int DEL_COST = 1;
 const int REPLACE_COST = 1;
 
+
 //s1->s2
+//call as f(s1.lenght()-1,s2.lenght(),s1,s2)
+    int findEditDistanceCostRecursiveTopDownNotPreferred(int m, int n, string s1, string s2)
+{   
+  cc  printf("m: %d, n: %d\n",m,n);
+    if(m<0)
+        return n+1;
+    if(n<0)
+        return m+1;
+
+	int val = 0;
+	if (s1[m] == s2[n])
+	{
+     cc   printf("m and n are equal %c,%c\n",s1[m],s2[n]);
+		val =  findEditDistanceCostRecursiveTopDownNotPreferred(m - 1, n - 1, s1, s2); //if char matches then {delete,replace or Insert non happen}
+	}
+	else
+	{
+		int iCost = INSERTION_COST + findEditDistanceCostRecursiveTopDownNotPreferred(m - 1, n, s1, s2);
+		int dCost = DEL_COST + findEditDistanceCostRecursiveTopDownNotPreferred(m, n - 1, s1, s2);
+
+		int rCost = REPLACE_COST + findEditDistanceCostRecursiveTopDownNotPreferred(m - 1, n - 1, s1, s2);
+      cc  printf("(%d,%d,%d)\n",iCost,dCost,rCost);
+		val =  (min(iCost, min(dCost, rCost)));
+	}
+cc	printf("(%d,%d) = %d ", m, n, val);
+	return val;
+}
+
+//s1->s2
+//call as f(s1.length(),s2.length(),s1,s2)
 int findEditDistanceCostRecursiveTopDown(int m, int n, string s1, string s2)
 {
 	if (m == 0 || n == 0)
@@ -124,6 +155,8 @@ int main()
 	printf("\findEditDistanceCostRecursiveTopDown = %d\n", findEditDistanceCostRecursiveTopDown(s1.length(),s2.length(), s1, s2));
 
 	printf("\nfindEditDistanceBottomUp = %d\n",findEditDistanceBottomUp(0,0,s1,s2));
+
+	printf("\n findEditDistanceCostRecursiveTopDownNotPreferred = %d\n",findEditDistanceCostRecursiveTopDownNotPreferred(s1.length()-1,s2.length()-1,s1,s2));
 	return 0;
 }
 
