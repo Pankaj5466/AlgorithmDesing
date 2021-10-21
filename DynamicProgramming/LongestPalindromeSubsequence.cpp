@@ -1,4 +1,5 @@
 #include<iostream>
+#include<vector>
 using namespace std;
 
 //call as f(0,s1.lenght()-1,s1)
@@ -38,8 +39,49 @@ int longestPalindromeSubsequenceRecursive(int l, int r, string s1)
 
 }
 
-int main()
+    int longestPalindromeSubsequenceDP(string s1)
 {
+    int NRow = s1.length();
+    int NCol = s1.length();
+
+    //OBSERVE1: when single string DP is formed, we do not ++ row and col
+    vector<vector<int> > dp(NRow,vector<int>(NCol,0));
+
+    //Length 1 string is always valid palindrome withlength 1
+    
+    for(int i=0;i<NRow;i++)
+        dp[i][i] = 1;
+    //OBSERVE dp[0][0] case do not need overrride, as it represedng s1[0]
+
+    for(int l=2;l<=NRow;l++) //length loop
+    {
+        
+        for(int i=0;i<NRow-l+1;i++)
+        {
+            int j = i+l-1;
+     //      printf("(%d,%d)\n",i,j);
+                
+            int val=0;
+            if(s1[i] == s1[j]) //we do not start row and col with +1, so our original data is at offset of 0
+            {
+                val = 2 + dp[i+1][j-1];
+            }
+            else
+            {
+                int iLeft = dp[i+1][j];
+                int iRight = dp[i][j-1];
+                val = max(iLeft,iRight);
+            }
+
+            dp[i][j] = val;
+        }
+    }
+
+        
+    return dp[0][NCol-1]; //OBSERVE3: this time our ans is not at NRow-1,NCol-1
+}
+int main()
+{  
 
     return 0;
 }
