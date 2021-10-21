@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 using namespace std;
+#define cc if(0)
 void printMatrix(vector<vector<int> >& vec1);
 const int INSERTION_COST = 1;
 const int DEL_COST = 1;
@@ -11,7 +12,7 @@ int findEditDistanceCostRecursiveTopDown(int m, int n, string s1, string s2)
 {
 	if (m == 0 || n == 0)
 	{
-		printf("\n");
+	cc	printf("\n");
 		return  (max(m, n)) * INSERTION_COST;
 	}
 
@@ -28,11 +29,35 @@ int findEditDistanceCostRecursiveTopDown(int m, int n, string s1, string s2)
 		int rCost = REPLACE_COST + findEditDistanceCostRecursiveTopDown(m - 1, n - 1, s1, s2);
 		val =  (min(iCost, min(dCost, rCost)));
 	}
-	printf("(%d,%d) = %d ", m, n, val);
+cc	printf("(%d,%d) = %d ", m, n, val);
 	return val;
 }
 
+int findEditDistanceBottomUp(int m, int n, string s1, string s2)
+{
+	if(m == s1.length() ) //to convert larger s1 to smaller s2, we need to delete that amount
+		return (s2.length()-n)*DEL_COST;
+	if( n == s2.length()) //s1 i smaller, we need some inseration to make it s2
+		return (s1.length()-m)*INSERTION_COST;
 
+    int retVal = 0;
+	if(s1[m] == s2[n])
+	{
+		retVal =  findEditDistanceBottomUp(m+1,n+1,s1,s2);
+	}
+	else //chars do not equal , we need to try all three opertion to find Min cost
+	{
+		//(m,n) => (m,n+1) ==> insert add new character to s1 i.e. m
+		int iCost = INSERTION_COST * 1 + findEditDistanceBottomUp(m,n+1,s1,s2);
+
+		int dCost = DEL_COST*1 + findEditDistanceBottomUp(m+1,n,s1,s2);
+		int rCost = REPLACE_COST*1 + findEditDistanceBottomUp(m+1,n+1,s1,s2);
+
+		retVal =  min(iCost,min(dCost,rCost));
+	}
+ //   printf("[%d] (%s->%s) :: %d\n",step,s1.substr(0,m+1).c_str(),s2.substr(0,n+1).c_str(),retVal);
+    return retVal;
+}
 int findEditDistanceDP(string s1, string s2)
 {
 	if (s1.length() == 0 || s2.length() == 0)
@@ -73,14 +98,14 @@ int findEditDistanceDP(string s1, string s2)
 
 				val = min(nCost, min(dCost, rCost));
 			}
-			printf("(%s,%s) = %d ", a.c_str(), b.c_str(), val);
+		cc	printf("(%s,%s) = %d ", a.c_str(), b.c_str(), val);
 			dp[i][j] = val;
 		}
 		printf("\n");
 	}//NRow for loop
 
-	cout << "Matrix is\n";
-	printMatrix(dp);
+	cc cout << "Matrix is\n";
+	cc printMatrix(dp);
 
 	return dp[NRow - 1][NCol - 1];
 }
@@ -96,7 +121,9 @@ int main()
 	int ans = findEditDistanceDP(s1, s2);
 	printf("EditDP = %d\n", ans);
 
-	printf("\nEditDistanceBottomUP = %d\n", findEditDistanceCostRecursiveTopDown(s1.length(),s2.length(), s1, s2));
+	printf("\findEditDistanceCostRecursiveTopDown = %d\n", findEditDistanceCostRecursiveTopDown(s1.length(),s2.length(), s1, s2));
+
+	printf("\nfindEditDistanceBottomUp = %d\n",findEditDistanceBottomUp(0,0,s1,s2));
 	return 0;
 }
 
