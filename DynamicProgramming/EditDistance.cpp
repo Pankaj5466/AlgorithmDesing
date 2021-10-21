@@ -102,7 +102,7 @@ int findEditDistanceDP(string s1, string s2)
 	NRow++;
 	NCol++;
 
-	vector<vector<int>> dp(NRow, vector<int>(NCol, 0));
+	vector<vector<int> > dp(NRow, vector<int>(NCol, 0));
 	
 	for (int i = 1; i < NRow; i++)
 		dp[i][0] = i;

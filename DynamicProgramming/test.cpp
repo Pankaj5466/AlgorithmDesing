@@ -6,9 +6,10 @@ using namespace std;
 int main(int argc, char** argv)
 {
 
-    cout<<"Testing Visual Code c++ compiler\n";
+    cout<<"Testing Visual Code c++ compiler(Verfying in mac)\n";
 
     vector<int> vec;
+    
     for(int i=0;i<10;i++)
         vec.push_back(i);
 
