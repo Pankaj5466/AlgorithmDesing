@@ -10,7 +10,8 @@ const int REPLACE_COST = 1;
 
 //s1->s2
 //call as f(s1.lenght()-1,s2.lenght(),s1,s2)
-    int findEditDistanceCostRecursiveTopDownNotPreferred(int m, int n, string s1, string s2)
+
+int findEditDistanceCostRecursiveTopDownNotPreferred(int m, int n, string s1, string s2)
 {   
   cc  printf("m: %d, n: %d\n",m,n);
     if(m<0)
