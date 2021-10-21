@@ -9,6 +9,7 @@ Solution2: instead of traversing whole O..k, we find the target index via binary
 
 #include<iostream>
 #include<vector>
+#include<algorithm>
 using namespace std;
 struct dataNode
 {
@@ -194,6 +195,10 @@ public:
     }
 };
 
+int  main()
+{
+    return 0;
+}
 /*
 [1,2,4,5,6,7]
 [4,6,7,10,8,10]
