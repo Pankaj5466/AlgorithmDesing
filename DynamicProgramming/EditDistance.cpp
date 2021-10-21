@@ -19,7 +19,8 @@ const int REPLACE_COST = 1;
         return m+1;
 
 	int val = 0;
-	if (s1[m] == s2[n])
+	if (s1[m] == s2[n]) //OBSERVE: here we are matching exact m,m
+	//In constrat to preferred one in which match m-1,n-1 , which is more resemblenece with DP
 	{
      cc   printf("m and n are equal %c,%c\n",s1[m],s2[n]);
 		val =  findEditDistanceCostRecursiveTopDownNotPreferred(m - 1, n - 1, s1, s2); //if char matches then {delete,replace or Insert non happen}
