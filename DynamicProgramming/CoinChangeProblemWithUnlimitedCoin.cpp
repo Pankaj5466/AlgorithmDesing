@@ -1,3 +1,4 @@
+//problem link: https://practice.geeksforgeeks.org/problems/coin-change2448/1
 #include<iostream>
 #include<vector>
 #include<string>
@@ -5,6 +6,21 @@ using namespace std;
 typedef long long int lli;
 
 class Solution {
+
+    lli countWaysRecurisve(int idx, int tSum,const vector<int>&arr)
+    {
+        if(tSum == 0)
+            return 1;
+        if(tSum < 0)
+            return 0;
+        if(idx>=arr.size())
+            return 0;
+        
+        int iSize = countWaysRecurisve(idx,tSum-arr[idx],arr); //OBSERVE1: include idx , REPETIVELY (notice we do not icreae idx here)
+        int eSize = countWaysRecurisve(idx+1,tSum,arr); //OBSERVE2: do not include idx coint
+
+        return iSize+eSize;
+    }
 
     lli countWaysDP(const vector<int>& arr, int sum)
     {
@@ -47,13 +63,19 @@ public:
     long long int count(int S[], int n, int sum)
     {
 
-        return countWaysDP(vector<int>(S, S + n), sum);
+        int rVal =  countWaysDP(vector<int>(S, S + n), sum);
+        printf("countWaysDP = %d\n",rVal);
 
+        rVal =  countWaysRecurisve(0,sum,vector<int>(S, S + n));
+        printf("countWaysRecurisve = %d\n",rVal);
+
+        return rVal;
     }
 };
 
 #define MAX_ARR 100000
 int main() {
+    freopen("sample_input.txt","r",stdin);
     int t;
     cin >> t;
     while (t--) {
@@ -75,7 +97,7 @@ void printMatrix(vector<vector<lli> >& vec1)
     {
         for (int j = 0; j < vec1[0].size(); j++)
         {
-            printf("%d ", vec1[i][j]);
+            printf("%lld ", vec1[i][j]);
         }
         printf("\n");
     }
