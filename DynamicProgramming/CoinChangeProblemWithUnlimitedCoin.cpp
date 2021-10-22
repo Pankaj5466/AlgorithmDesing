@@ -130,6 +130,50 @@ int main() {
     return 0;
 }
 
+//Variation2
+//https://leetcode.com/problems/combination-sum-iv/
+//aka permutation ways
+int countCoinWayAllPermutation(int idx, int tSum,vector<int>& arr)
+{
+    if(tSum == 0)
+        return 1;
+    if(tSum < 0)
+        return 0;
+    if(idx>=arr.size())
+        return 0;
+    
+    int  count = 0;
+    for(int i=idx;i<arr.size();i++)
+    {
+        count += countCoinWayAllPermutation(idx,tSum-arr[i],arr);
+    }
+
+    return count;
+
+}
+
+//Variation3: print all ways of variation2
+void printCoinWayAllPermutation(int idx, int tSum,vector<int>& arr,vector<int>&tans)
+{
+    if(tSum == 0)
+    {
+       for(auto k:tans)
+            cout<<k<<" ";
+        cout<<endl;    
+    }
+    if(tSum < 0)
+        return;
+    if(idx>=arr.size())
+        return;
+    
+    int  count = 0;
+    for(int i=idx;i<arr.size();i++)
+    {
+        tans.push_back(arr[i]);
+        printCoinWayAllPermutation(idx,tSum-arr[i],arr,tans);
+        tans.pop_back();
+    }
+}
 
 void printMatrix(vector<vector<lli> >& vec1)
 {
