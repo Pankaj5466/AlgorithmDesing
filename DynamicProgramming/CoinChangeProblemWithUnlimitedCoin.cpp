@@ -5,7 +5,43 @@
 using namespace std;
 typedef long long int lli;
 
+#define MAX_COIN_COUNT 1000
+#define MAX_SUM 1000
+#define LIMIT_COUNT 1000
+
+int mem[MAX_COIN_COUNT][MAX_SUM][LIMIT_COUNT]; //better to use map to avoid uncessary init
+
 class Solution {
+
+    //SOLUTION not verifed by online judge. so below is treat below just as pesudo code
+    lli countWasyRecursiveLimitedNumberOfCoin(int idx, int tSum, const vector<int>&arr,vector<int>& limit)
+    {
+        if(tSum == 0)
+            return 1;
+    
+        if(tSum < 0)
+            return 0;
+
+        if(idx >= arr.size())
+            return 0;
+
+        int l = limit[idx];
+        if(mem[arr[idx]][tSum][l] != -1)
+            return mem[arr[idx]][tSum][l];
+        
+        int iSize = 0;
+        if(limit[idx] > 0)
+        {
+            limit[idx]--; //decrease limit by 1
+            iSize = countWasyRecursiveLimitedNumberOfCoin(idx,tSum-arr[idx],arr,limit); 
+            limit[idx]++; //backtrack
+        }
+
+        int eSize = countWasyRecursiveLimitedNumberOfCoin(idx+1,tSum,arr,limit);
+
+        mem[arr[idx]][tSum][l] = eSize + iSize;
+        return mem[arr[idx]][tSum][l];
+    }
 
     lli countWaysRecurisve(int idx, int tSum,const vector<int>&arr)
     {
@@ -17,6 +53,10 @@ class Solution {
             return 0;
         
         int iSize = countWaysRecurisve(idx,tSum-arr[idx],arr); //OBSERVE1: include idx , REPETIVELY (notice we do not icreae idx here)
+        //OBSERVE3: in sumbset sum. we were allowed to include the number only 1 numbe of time ==> once included, we need to go to next element.
+        //but as in coinChange , we can pick same element unlimited number of time, hence while including, we DO NOT ADVACE idx BY 1
+
+        //OBSERVATION4: subsetSum = CointChange where each every coin is present only 1 number of time.
         int eSize = countWaysRecurisve(idx+1,tSum,arr); //OBSERVE2: do not include idx coint
 
         return iSize+eSize;
