@@ -20,25 +20,42 @@ bool checkPalindrome(int l, int r, string s1)
     }   
 }
 
-int longestPalindromeRecursive(int l, int r, string s1)
+int maxRVal = -1;
+int longestPalindromeRecursive(int l, int r, string s1,pair<int,int> &p)
 {
     if(l>r)
         return 0;
     if(l==r) //All single string length are palindrome of length 1
         return 1;
     
+    int rVal = 0;
     if(s1[l] == s1[r])
     {
-        return 2+ longestPalindromeRecursive(l+1,r-1,s1);
+        rVal =  2+ longestPalindromeRecursive(l+1,r-1,s1,p);
+        if(rVal > maxRVal)
+        {
+            p.first = l;
+            p.second = rVal;
+
+            rVal = maxRVal;
+        }
     }
     else
     {
-        int iLeft = longestPalindromeRecursive(l+1,r,s1); //ignore left
-        int iRight = longestPalindromeRecursive(l,r-1,s1); //ignore right
-        return max(iLeft,iRight);
+        int iLeft = longestPalindromeRecursive(l+1,r,s1,p); //ignore left
+        int iRight = longestPalindromeRecursive(l,r-1,s1,p); //ignore right
+        rVal =  max(iLeft,iRight);
+
+        if(rVal > maxRVal)
+            p.first = (rVal == iLeft) ? l+1:l;
+            p.second = rVal;
+            maxRVal = rVal;
     }
 
+    return rVal;
+
 }
+
 int main()
 {
 
