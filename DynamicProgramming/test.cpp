@@ -41,6 +41,7 @@ void test()
 }
 
 //Variaton1: https://stackoverflow.com/questions/32538294/how-do-i-maximise-the-sum-in-this-game
+//https://brilliant.org/wiki/egg-dropping/
 int maxScore(int l, int r, const vector<int> &arr)
 {
     if(l>r)
