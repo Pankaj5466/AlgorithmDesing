@@ -36,6 +36,37 @@ int maxCutCost(int idx, const vector<int>& price,const vector<int>&length, int a
     return rVal; 
 }
 
+int maxCutCostDP(const vector<int>& price,vector<int> length)
+{
+    int NRow = price.size();
+    int NCol = length.size();
+    NRow++;
+    NCol++;
+    
+    vector<vector<int>> dp(NRow,vector<int>(NCol,0)); 
+    for(int j=0;j<NCol;j++)
+        dp[0][j] = 0; //case when we do not want to cut
+    
+    for(int i=0;i<NRow;i++)
+        dp[i][0] = 0; //when rod length is '0' we could not make any profit
+
+    for(int i=1;i<NRow;i++)
+    {
+        for(int j=1;j<NCol;j++)
+        {
+            int inclusive = 0;
+            int exclusive = 0;
+            if(j-length[i-1] >= 0)
+                inclusive = price[i-1] + dp[i][j-length[i-1]];  //OBSERVE2: in inclusive case, current ans will depedent upon Rod Length of 'Current Total Rod Len(==j)- Length We gain if picked current set(a2)
+                                                                //OBSERVE3: As usual, when NRow++,NCol++ ==> to access original data we need to handle offset of '-1'
+            exclusive = dp[i-1][j];
+
+            dp[i][j] = max(inclusive,exclusive);
+        }
+    }
+    
+    return dp[NRow-1][NCol-1];
+}
 class Solution{
   public:
     int cutRod(vector<int> price, int n) 
@@ -47,6 +78,10 @@ class Solution{
         
         mMap = {};
         int ans  = maxCutCost(0,priceVec,length,n);
+        printf("Recusive maxCutCost = %d\n",ans);
+
+        ans = maxCutCostDP(priceVec,length);
+        printf("DP-TOPDOwn maxCutCost = %d\n",ans);
         return ans;
     }
 };/*
@@ -57,18 +92,18 @@ class Solution{
 // { Driver Code Starts.
 
 int main() {
-    int t;
-    cin >> t;
+    int t=1;
+   // cin >> t;
     while (t--) {
-        int n;
-        cin >> n;
-        vector<int> a(n);
-        for (int i = 0; i < n; i++) 
-            cin >> a[i];
-            
+        vector<int> a{3,5,8,9,10,17,17,20};
+        int n = a.size();
+
         Solution ob;
 
-        cout << ob.cutRod(a, n) << endl;
+        int ans = ob.cutRod(a, n);
+        
+        
+
     }
     return 0;
 }  // } Driver Code Ends
