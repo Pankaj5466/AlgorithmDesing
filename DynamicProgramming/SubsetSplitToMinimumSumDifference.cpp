@@ -1,7 +1,6 @@
 //PROBLEM LINK: https://cses.fi/problemset/task/1623/
 //NOTE: Above link is super cool , as it have question for all standard problem!!
 //Just solve it 2,3 times while understading for interview problem
-
 #include<iostream>
 #include<vector>
 #include<map>
@@ -9,7 +8,7 @@ using namespace std;
 typedef unsigned long long int lli;
 //typedef int lli;
  
-map<pair<lli,lli>,lli> mMap;
+std::map<pair<lli,lli>,lli> mMap;
  
 int cSum = 0;
 int targetSum(int idx,  const vector<int>&arr,lli sum,const lli TOTAL_SUM)
