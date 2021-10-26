@@ -37,6 +37,7 @@ int findMinDropRecursive(int n,int k)
 void pritVector(vector<vector<lli>> dp);
 
 class Solution {
+    //DP walkThrough: https://www.youtube.com/watch?v=xsOCvSiSrSs
     int superEggDropDP(int NEgg,int NFloor)
     {
 
