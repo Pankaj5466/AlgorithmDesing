@@ -105,7 +105,7 @@ int subsetSumDifferenceMin(int idx,  const vector<int>&arr,lli sum,const lli TOT
     return minDiff;
  }
  
-
+//OBSERVE4: an space optimized version of O(TOTAL_SUM) also exist. check gfg for same
 int main()
 {
     //vector<int> vec{3,2,7,4,1};
