@@ -1,12 +1,19 @@
-//https://practice.geeksforgeeks.org/problems/boolean-parenthesization5610/1
-
+//Problem Link: https://practice.geeksforgeeks.org/problems/boolean-parenthesization5610/1
+//If need refreshment, please check: https://www.youtube.com/watch?v=pGVguAcWX4g
 #include<iostream>
 using namespace std;
 
 int calculate(int lT,int lF,int rT,int rF, int op,int target)
 {
     int trueWay = 0,falseWay = 0;
-
+    /* Just make truth table then compute all
+    a b or and  xor
+    0 0 0   0   0   
+    0 1 1   0   1
+    1 0 1   0   1
+    1 1 1   1   0
+    */
+   //Just translate above truth table to below ways
     switch(op)
     {
         case '|':
