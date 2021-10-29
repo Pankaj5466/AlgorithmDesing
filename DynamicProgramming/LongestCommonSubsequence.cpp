@@ -86,8 +86,8 @@ int findLCSDP(string s1, string s2)
 
 int main()
 {
-	string s1 = "ABCDEF"; //"abc" ;//;
-	string s2 = "AEDNEK"; //"def";// "AEDNEK";
+	string s1 = "ABCDEF"; //"abc";
+	string s2 = "AEDNEK"; //"def";
 
 	int count1 = findLCSRecursiveBottomUp(0, 0, s1, s2);
 
