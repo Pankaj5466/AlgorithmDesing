@@ -53,9 +53,9 @@ int evaluate(int l,int r, string& s1, bool target)
 
     int trueWay = 0, falseWay = 0;
 
-    for(int k=l+1; k<r; k = k+2)
+    for(int k=l+1; k<r; k = k+2) //OBSERVE: operator are this place only
     {
-        int lT = evaluate(l,k-1,s1,true);
+        int lT = evaluate(l,k-1,s1,true); //observe operator should not lie at end
         int lF = evaluate(l,k-1,s1,false);
 
         int rT = evaluate(k+1,r,s1,true);

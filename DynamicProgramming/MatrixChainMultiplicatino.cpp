@@ -1,12 +1,13 @@
 #include<iostream>
 #include<vector>
 using namespace std;
+#define cc if(1)
 
 const int MAX_ARR_SIZE = 100+ 10;
 int mem[MAX_ARR_SIZE][MAX_ARR_SIZE];
 
 //MUST_OBSERVE1: this function will be called with l = 1 (i.e at lest two matrix should be ther for multiplication)
-int matrixChainMultiplicatino(int l, int r, const vector<int>&arr)
+int matrixChainMultiplicatinoRec(int l, int r, const vector<int>&arr)
 {
     if(l==r)
         return 0; //multiplication cost for single matrix is ZERO
@@ -22,8 +23,8 @@ int matrixChainMultiplicatino(int l, int r, const vector<int>&arr)
     {
         //[i-1,k] [k+1,r] <== these are two matrix which are going to be multiplied
         //hence multiplicatinCost = arr[i-1] * arr[k] * arr[r]
-        int leftCost =  matrixChainMultiplicatino(l,k,arr);
-        int rightCost = matrixChainMultiplicatino(k+1,r,arr);
+        int leftCost =  matrixChainMultiplicatinoRec(l,k,arr);
+        int rightCost = matrixChainMultiplicatinoRec(k+1,r,arr);
 
        // printf("(%d,%d):: LeftCost = %d, RightCost = %d\n",l,r,leftCost,rightCost);
 
@@ -37,15 +38,82 @@ int matrixChainMultiplicatino(int l, int r, const vector<int>&arr)
     return rVal;
 }
 
+void printVector(const vector<vector<int>>& vec);
+int matrixChainMultiplicationDP(const vector<int>& arr)
+{
+    int NRow = arr.size();
+    int NCol = arr.size();
+
+#if 0
+    printf("input is(size = %d)\n",arr.size());
+    for(int i=0;i<arr.size();i++)
+        printf("%d ",arr[i]);
+    printf("\n");
+#endif
+    vector<vector<int>> dp(NRow,vector<int>(NCol,INT_MAX));
+    for(int i=0;i<NRow;i++)
+        dp[i][i] = 0; //Base Case: Single matrix multiplication cost is ZERO
+    dp[0][0] = 0;
+
+    for(int l=2;l<=NRow-1;l++)
+    {
+        for(int i=1;i<NRow-l+1;i++) //OBSERVE: same as reusion , we are starting 'l' from 1 [ as else l-1 would not be valid]
+        {
+            int j = i+l-1;
+
+     cc       printf("(%d,%d) :: ",i,j);
+            for(int k=i;k<j;k++)
+            {
+     cc           printf("-> %d",k);
+                int leftCost = dp[i][k];
+                int rightCost = dp[k+1][j];
+
+                int multiplicatinoCostAtK = leftCost + rightCost
+                                            + arr[i-1] * arr[k] *arr[j];
+      cc          printf("L(%d), R(%d), C(%d)\n",leftCost,rightCost,multiplicatinoCostAtK);
+                dp[i][j] = min(dp[i][j],multiplicatinoCostAtK);
+            }
+      cc      printf("\n");
+        }
+    cc    printf("\n");
+    }
+  cc  cout<<"PrintDP Vector\n";
+ cc   printVector(dp);
+
+    int ans = dp[1][NCol-1]; //OBSERVE: our anser exist at l==1, r = NCol-1 EVEN though we have not NRow++,NCol++
+    return ans;
+
+}
+
 int main()
 {
 
     vector<int> vec{40,20,30,10,30};
     memset(mem,-1,sizeof(int)*MAX_ARR_SIZE*MAX_ARR_SIZE);
     
-    int ans = matrixChainMultiplicatino(1,vec.size()-1,vec);
+    int ans = matrixChainMultiplicatinoRec(1,vec.size()-1,vec);
+    printf("matrixChainMultiplicatinoRec CostRec = %d\n",ans);
 
-    printf("Multiplicaton Cost = %d\n",ans);
+    ans = matrixChainMultiplicationDP(vec);
+    printf("matrixChainMultiplicationDP = %d\n",ans);
+
 
     return 0;
+}
+void printVector(const vector<vector<int>>& vec)
+{
+    int NRow = vec.size();
+    int NCol = vec[0].size();
+    for(int i=0;i<NRow;i++)
+    {
+        for(int j=0;j<NCol;j++)
+        {
+            if(vec[i][j] == INT_MAX)
+                printf("- "); //OBSERVE For better formatting, print '-' in place of INT_MAX
+            else
+                printf("%d ",vec[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
 }
