@@ -1,6 +1,7 @@
 #include<iostream>
 #include<algorithm>
 #include<vector>
+#include "LongestCommonSubsequencePrint.h"
 using namespace std;
 
 //Only Length of longest common substring
@@ -77,14 +78,16 @@ int findLCSDP(string s1, string s2)
 
 	printf("Matrix is\n");
 	printMatrix(dp);
+
+	printf("Common Substring is = %s\n",printLCS(s1,s2,dp).c_str());
 	return dp[NRow - 1][NCol - 1];
 }
 
 
 int main()
 {
-	string s1 = "abc" ;//"ABCDEF";
-	string s2 = "def";// "AEDNEK";
+	string s1 = "ABCDEF"; //"abc" ;//;
+	string s2 = "AEDNEK"; //"def";// "AEDNEK";
 
 	int count1 = findLCSRecursiveBottomUp(0, 0, s1, s2);
 
