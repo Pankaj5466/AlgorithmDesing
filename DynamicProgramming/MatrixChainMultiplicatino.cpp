@@ -1,3 +1,5 @@
+//Print Minimum Cost Matrix Problem:
+//Print Bracket in MCM Problem: https://practice.geeksforgeeks.org/problems/brackets-in-matrix-chain-multiplication1024/1
 #include<iostream>
 #include<vector>
 using namespace std;
@@ -38,6 +40,24 @@ int matrixChainMultiplicatinoRec(int l, int r, const vector<int>&arr)
     return rVal;
 }
 
+void printMCMRec(int l, int r, string& ans,const vector<vector<int>> bracket,int &cMatrix)
+{
+    if(l==r)
+    {
+        ans.push_back(cMatrix+'a'); //problem reduce to single matrix. Output Matrix
+        cMatrix++;
+        return;
+    }
+
+    printf("(%d,%d)\n",l,r);
+
+    ans.push_back('(');
+    printMCMRec(l,bracket[l][r], ans, bracket,cMatrix);
+
+    printMCMRec(bracket[l][r]+1,r , ans,bracket,cMatrix);
+    ans.push_back(')');
+    
+}
 void printVector(const vector<vector<int>>& vec);
 int matrixChainMultiplicationDP(const vector<int>& arr)
 {
@@ -51,6 +71,7 @@ int matrixChainMultiplicationDP(const vector<int>& arr)
     printf("\n");
 #endif
     vector<vector<int>> dp(NRow,vector<int>(NCol,INT_MAX));
+    vector<vector<int>> bracket(NRow,vector<int>(NCol,0));
     for(int i=0;i<NRow;i++)
         dp[i][i] = 0; //Base Case: Single matrix multiplication cost is ZERO
     dp[0][0] = 0;
@@ -70,7 +91,9 @@ int matrixChainMultiplicationDP(const vector<int>& arr)
 
                 int multiplicatinoCostAtK = leftCost + rightCost
                                             + arr[i-1] * arr[k] *arr[j];
-      cc          printf("L(%d), R(%d), C(%d)\n",leftCost,rightCost,multiplicatinoCostAtK);
+      cc        printf("L(%d), R(%d), C(%d)\n",leftCost,rightCost,multiplicatinoCostAtK);
+                if(dp[i][j] > multiplicatinoCostAtK)
+                    bracket[i][j] = k; //store info that i <--> j has been broken at some middle place k
                 dp[i][j] = min(dp[i][j],multiplicatinoCostAtK);
             }
       cc      printf("\n");
@@ -80,6 +103,13 @@ int matrixChainMultiplicationDP(const vector<int>& arr)
   cc  cout<<"PrintDP Vector\n";
  cc   printVector(dp);
 
+    printf("Printing MCM\n");
+    string bString;
+    int cMatrix = 0;
+    //OBSERVE Below: Call is from 1st matrix to total matix size
+    //henc f(1,nMatrixSize)
+    printMCMRec(1,arr.size()-1,bString,bracket,cMatrix);
+    printf("Expression with Optimal Bracket is = %s\n",bString.c_str());
     int ans = dp[1][NCol-1]; //OBSERVE: our anser exist at l==1, r = NCol-1 EVEN though we have not NRow++,NCol++
     return ans;
 
