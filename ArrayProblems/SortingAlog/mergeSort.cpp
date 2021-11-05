@@ -1,3 +1,5 @@
+//Problem Practice: https://practice.geeksforgeeks.org/problems/merge-sort/1
+//Problem Resource: logicmojo
 #include<iostream>
 #include<vector>
 using namespace std;
