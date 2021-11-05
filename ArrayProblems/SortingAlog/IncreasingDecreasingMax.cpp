@@ -17,7 +17,7 @@ int findMax(int l, int r, const vector<int>& arr)
 
     int mid = (r-l)/2 + l;
 
-    if(arr[l] < arr[mid] && arr[mid] > arr[r]) //this is the inflection point (cur element is max for left and right)
+    if(arr[mid-1] < arr[mid] && arr[mid] > arr[mid+1]) //this is the inflection point (cur element is max for left and right)
         return arr[mid]; 
     
     if(arr[mid-1] < arr[mid] && arr[mid] < arr[mid+1]) //left is less, right is more ==> we are in increasign half of array => max will be at right side
