@@ -1,5 +1,5 @@
 //Print Minimum Cost Matrix Problem:
-//Print Bracket in MCM Problem: https://practice.geeksforgeeks.org/problems/brackets-in-matrix-chain-multiplication1024/1
+//Print Bracket in MCM Problem: 
 #include<iostream>
 #include<vector>
 using namespace std;
