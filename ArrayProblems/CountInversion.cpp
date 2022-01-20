@@ -3,9 +3,9 @@
 
 using namespace std;
 #define cc if(0)
+#define INF LLONG_MAX
 
-
-typedef unsigned long long int lli;
+typedef  long long int lli;
 
 class Solution{
     
@@ -25,8 +25,8 @@ class Solution{
         for( j=0;j<rSize;j++)
             right[j] =arr[j+mid+1]; //start of 2nd array is (mid+1)
             
-        left[i] = INT_MAX; //sentinel node
-        right[j]= INT_MAX; //sentinel node
+        left[i] = INF; //sentinel node <=1st Issue should have used Unsinged-long-long-int-max
+        right[j]= INF; //sentinel node
 #if 0     
         cout<<"Left and right is\n";
         for(int i=0;i<lSize;i++)
@@ -50,7 +50,7 @@ class Solution{
             else
             {
                 arr[k++] = right[j++];
-                if(left[i] != INT_MAX) 
+                if(left[i] != INF) 
                     count += (mid+1)-(l+i);
             }
        //     printf(" count = %lld\n",count);
@@ -105,7 +105,7 @@ public:
 
 int main()
 {
-    freopen("sample_input.txt","r+",stdin);
+    freopen("../DynamicProgramming/sample_input.txt","r+",stdin);
     lli size = 0;
     cin>>size;
 
