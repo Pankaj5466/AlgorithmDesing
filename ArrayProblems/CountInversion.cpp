@@ -5,7 +5,7 @@ using namespace std;
 #define cc if(0)
 
 
-typedef long long int lli;
+typedef unsigned long long int lli;
 
 class Solution{
     
